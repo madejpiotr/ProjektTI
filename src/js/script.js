@@ -211,10 +211,10 @@ class SizeBalancer {
         const max = Math.min(maxSize.width, maxSize.height);
         console.log(max);
 
-        if (size.width < size.height && size.height < max) {
+        if (size.width < size.height && size.width < max) {
             return new Size(size.width, size.width);
         }   
-        else if (size.width < max) {
+        else if (size.height < max) {
             return new Size(size.height, size.height);
         }
         return new Size(max, max);
@@ -383,6 +383,7 @@ class Game {
     constructor() { 
         this.canvas = document.querySelector('.game-canvas');
         this.menu = document.querySelector('.snake-menu');
+        this.border = document.querySelector('.border');
         this.scene = null;
         const angle = 75;
         this.tan = Math.tan(this.degrees_to_radians(angle / 2));
@@ -411,6 +412,7 @@ class Game {
     onStartButtonClick() {
         this.menu.style.visibility = 'hidden';
         this.menu.style.display = 'none';
+        this.border.style.display = 'none';
         this.start();
     }
 
@@ -453,7 +455,7 @@ class Game {
         this.scoreLabel.setAttribute("class", "game-over");
         this.scoreLabel.setAttribute("style", "width: " + width + "px;");
         this.scoreLabel.setAttribute("style", "height: " + height + "px;");
-        this.scoreLabel.setAttribute("style", "font-size: "+ this.fontsize+"px;");
+        this.scoreLabel.setAttribute("style", "font-size: "+ this.fontsize+"px; border: #f5f5f5 solid 15px;");
         this.scoreLabel.innerHTML = "<div class=\"game-over-text\"><p> Game Over</p> <p class=\"game-over-score\">Score: " + (this.board.snake.body.length - 2) + "</p></div>";
         this.button = document.createElement("div");
         this.button.setAttribute("class", "game-over-button");
@@ -484,7 +486,7 @@ class Game {
     }
 
     onResize() {
-        const calculatedSize = SizeBalancer.calculateSize(this.canvas);
+        const calculatedSize = SizeBalancer.calculateSize(this.canvas.parentNode.parentNode);
         this.renderer.setSize(calculatedSize.width, calculatedSize.height);
         this.camera.aspect = calculatedSize.width / calculatedSize.height;
         this.camera.updateProjectionMatrix();
