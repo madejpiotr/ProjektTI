@@ -357,6 +357,9 @@ body {
         margin: 0px;
         padding: 0px;
     }
+    body{
+        grid-template-rows: 70px 185px auto 40px;
+    }
     .menu,
     .main,
     .button {
@@ -379,7 +382,12 @@ body {
     .game-over-text p {
         margin: 20px 0px 35px 0px;
     }
-
+    .paragraph{
+        font-size: 12px;
+    }
+    .link{
+        font-size: 6px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
