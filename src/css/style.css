@@ -365,7 +365,6 @@ body {
     .button {
         width: 100%;
     }
-
     .menu a {
         display: block;
     }
@@ -383,10 +382,10 @@ body {
         margin: 20px 0px 35px 0px;
     }
     .paragraph{
-        font-size: 12px;
+        font-size: 8px;
     }
     .link{
-        font-size: 6px;
+        font-size: 4px;
     }
 }
 
