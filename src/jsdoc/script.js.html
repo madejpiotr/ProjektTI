@@ -1,4 +1,32 @@
-import * as THREE from 'three';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as THREE from 'three';
 /**
  * Klasa Size
  * Przyjmuje wysokość i szerokość
@@ -55,7 +83,7 @@ class Point {
      * @function
      */
     equals(point) {
-        return this.x == point.x && this.y == point.y;
+        return this.x == point.x &amp;&amp; this.y == point.y;
     }
 }
 /**
@@ -165,7 +193,7 @@ class Snake {
      * @function
      */
     setDirection(direction) {
-        if (!this.direction.isOpposite(direction) && !this.changedDirection) {
+        if (!this.direction.isOpposite(direction) &amp;&amp; !this.changedDirection) {
             this.changedDirection = true;
             this.direction = direction;
         }
@@ -279,7 +307,7 @@ class Board {
         if (this.isOnBoard(this.snake.head)) {
             const futureSnakePosition = new Point(this.snake.head.x + this.snake.direction.offset.x,
                 this.snake.head.y + this.snake.direction.offset.y);
-            if (futureSnakePosition.x == this.point.x && futureSnakePosition.y == this.point.y) {
+            if (futureSnakePosition.x == this.point.x &amp;&amp; futureSnakePosition.y == this.point.y) {
                 this.snake.eat(this.point);
                 this.point = Point.Undefinied;
                 this.putPoint();
@@ -303,7 +331,7 @@ class Board {
             -1 * this.snake.direction.offset.y);
 
         let part = new Point(this.snake.head.x, this.snake.head.y);
-        for (let i = 0; i < lenght - 1;) {
+        for (let i = 0; i &lt; lenght - 1;) {
             part.x += opposite.x;
             part.y += opposite.y;
 
@@ -324,7 +352,7 @@ class Board {
     putPoint() {
         while (true) {
             const point = this.randomPointInBoard();
-            if (!this.snake.bodyCollides(point) && !this.snake.head.equals(point)) {
+            if (!this.snake.bodyCollides(point) &amp;&amp; !this.snake.head.equals(point)) {
                 this.point = point;
                 break;
             }
@@ -338,12 +366,12 @@ class Board {
      * @function
      */
     isOnBoard(point) {
-        let xa = 0 <= point.x;
-        let xb = point.x < this.size.x;
-        let ya = 0 <= point.y;
-        let yb = point.y < this.size.y;
+        let xa = 0 &lt;= point.x;
+        let xb = point.x &lt; this.size.x;
+        let ya = 0 &lt;= point.y;
+        let yb = point.y &lt; this.size.y;
 
-        return xa && xb && ya && yb;
+        return xa &amp;&amp; xb &amp;&amp; ya &amp;&amp; yb;
     }
     /**
      * Funkcja pomocnicza do funkcji putPoint()
@@ -417,10 +445,10 @@ class SizeBalancer {
         const max = Math.min(maxSize.width, maxSize.height);
         console.log(max);
 
-        if (size.width < size.height && size.width < max) {
+        if (size.width &lt; size.height &amp;&amp; size.width &lt; max) {
             return new Size(size.width, size.width);
         }   
-        else if (size.height < max) {
+        else if (size.height &lt; max) {
             return new Size(size.height, size.height);
         }
         return new Size(max, max);
@@ -521,9 +549,9 @@ class SnakeRenderer {
      * @function
      */
     update() {
-        if (!this.snake.isAlive && !this.isRunning)
+        if (!this.snake.isAlive &amp;&amp; !this.isRunning)
             return;
-        if (!this.snake.isAlive && this.isRunning) {
+        if (!this.snake.isAlive &amp;&amp; this.isRunning) {
             startAnimation();
             return;
         }
@@ -541,7 +569,7 @@ class SnakeRenderer {
         if (this.parts.length >= this.snake.body.length + 1) {
             return;
         }
-        if (this.parts.find((x, i) => x.cube.position.x == this.snake.head.x && x.cube.position.y == this.snake.head.y) == null) {
+        if (this.parts.find((x, i) => x.cube.position.x == this.snake.head.x &amp;&amp; x.cube.position.y == this.snake.head.y) == null) {
             this.addPart(this.snake.head, this.scene, 0x072534, 0x156289);
         }
     }
@@ -571,7 +599,7 @@ class SnakeRenderer {
     moveSnakeMesh() {
         const delta = 2 * this.clock.getDelta();
         this.moveSnakeHeadMesh(delta);
-        for (let i = 1; i < this.parts.length; i++) {
+        for (let i = 1; i &lt; this.parts.length; i++) {
             this.moveSnakeBodyPartMesh(this.parts[i], this.snake.body[i - 1], delta);
         }
     }
@@ -650,8 +678,8 @@ class BoardRenderer {
         const plane = new THREE.Mesh(geometry, material);
         plane.position.set(Math.floor(this.board.size.x / 2), Math.floor(this.board.size.y / 2), 0);
         this.scene.add(plane);
-        for (let i = 0; i < this.board.size.x; i++) {
-            for (let j = 0; j < this.board.size.y; j++) {
+        for (let i = 0; i &lt; this.board.size.x; i++) {
+            for (let j = 0; j &lt; this.board.size.y; j++) {
                 this.addField(i, j);
             }
         }
@@ -839,7 +867,7 @@ class Game {
         this.scoreLabel.setAttribute("style", "width: " + width + "px;");
         this.scoreLabel.setAttribute("style", "height: " + height + "px;");
         this.scoreLabel.setAttribute("style", "font-size: "+ this.fontsize+"px; border: #f5f5f5 solid 15px;");
-        this.scoreLabel.innerHTML = "<div class=\"game-over-text\"><p> Game Over</p> <p class=\"game-over-score\">Score: " + (this.board.snake.body.length - 2) + "</p></div>";
+        this.scoreLabel.innerHTML = "&lt;div class=\"game-over-text\">&lt;p> Game Over&lt;/p> &lt;p class=\"game-over-score\">Score: " + (this.board.snake.body.length - 2) + "&lt;/p>&lt;/div>";
         this.button = document.createElement("div");
         this.button.setAttribute("class", "game-over-button");
         this.button.addEventListener("click", this.retry.bind(this));
@@ -968,11 +996,11 @@ class Game {
         let limit = 25;
         if (lenght > limit) {
             let angle = Math.atan2(touchPoint.y - this.touchStart.y, touchPoint.x - this.touchStart.x) * (180 / Math.PI);
-            if (angle > -135 && angle <= -45) {
+            if (angle > -135 &amp;&amp; angle &lt;= -45) {
                 this.board.snake.setDirection(Direction.Up);
-            } else if (angle > -45 && angle <= 45) {
+            } else if (angle > -45 &amp;&amp; angle &lt;= 45) {
                 this.board.snake.setDirection(Direction.Right);
-            } else if (angle > 45 && angle <= 135) {
+            } else if (angle > 45 &amp;&amp; angle &lt;= 135) {
                 this.board.snake.setDirection(Direction.Down);
             } else {
                 this.board.snake.setDirection(Direction.Left);
@@ -1029,3 +1057,26 @@ onGameStart()
 {
     game.start();
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="BoardRenderer.html">BoardRenderer</a></li><li><a href="Direction.html">Direction</a></li><li><a href="DirectionRandomizer.html">DirectionRandomizer</a></li><li><a href="Game.html">Game</a></li><li><a href="Point.html">Point</a></li><li><a href="PointRandomizer.html">PointRandomizer</a></li><li><a href="Size.html">Size</a></li><li><a href="SizeBalancer.html">SizeBalancer</a></li><li><a href="Snake.html">Snake</a></li><li><a href="SnakeRenderer.html">SnakeRenderer</a></li><li><a href="SnakeRendererElement.html">SnakeRendererElement</a></li></ul><h3>Global</h3><ul><li><a href="global.html#game">game</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jan 28 2024 23:55:40 GMT+0100 (czas środkowoeuropejski standardowy)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
