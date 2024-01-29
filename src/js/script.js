@@ -315,7 +315,7 @@ class Board {
             this.snake.body.unshift(new Point(part.x, part.y));
             i++
         }
-    }SnakeRendererElement
+    }
     /**
      * Funkcja generująca punkt do zjedzenia
      * 
