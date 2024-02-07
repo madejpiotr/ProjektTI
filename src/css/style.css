@@ -115,6 +115,8 @@ Styleguide 3.2
 contact-content
 
 Style dla podstrony kontaktowej, nadanie koloru tła i czcionki, paddingow, zmienienie display na grid, który dzieli ją na część lewą i prawą
+
+Markup:
 <div class="contact-content" {{contact-content}}>Przyklad</div>
 
 Styleguide 5.1
@@ -153,6 +155,7 @@ form-text
 
 Dobranie szerokości, paddingów, obramówki, marginesów, czcionki, jej koloru dla komórek tekstowych, czyli First Name i Last Name dla formularza
 
+Markup:
 <input type="text" class="form-text {{form-text}}" name="firstname"  pattern="[A-Za-z ]{1,32}" required placeholder="Your name.."/>
 
 Styleguide 5.3
@@ -172,6 +175,7 @@ form-textarea
 
 Dobranie czcionki, szerokości, marginesów, obramówki i kolorów, jak i wyłączenie opcji zmienienia wielkości okienka dla obszaru tekstowego dla formularza
 
+Markup:
 <textarea class="form-textarea {{form-textarea}}" name="subject" required placeholder="Write something.." style="height:170px"></textarea>
 
 Styleguide 5.4
@@ -190,6 +194,7 @@ form-topic
 
 Zmiana szerokości, czcionki, marginesów, wysokości, kolorów i obramówki dla wyboru tematu formularza
 
+Markup:
 <select class="form-topic {{form-topic}}" name="topic">
                       <option value="Bug">Bug</option>
                       <option value="Suggestion">Suggestion</option>
@@ -213,6 +218,7 @@ form-input
 Dobranie tła, szerokości, marginesów, obramówki, czcionki dla buttona, jak i dodanie animacji, która wypełnia go innym kolorem zaczynajac od lewej strony podczas najechania
 :hover - aktywuje animacje
 
+Markup:
 <input type="submit {{submit}}" class="form-input" value="Submit">
 
 Styleguide 5.6
@@ -287,6 +293,7 @@ menu
 
 Zmiana display'u na grid, aby zmieścić 3 przyciski, jeden koło drugiego, zmiana koloru tła i paddingów dla menu górnego
 
+Markup:
 <div class="menu {{menu}}">
         <a href="#"><div class="button" role="button">Home</div></a>
         <a href="./About.html"><div class="button" role="button">About</div></a>
@@ -310,6 +317,7 @@ footer
 
 Nadanie położenia w gridzie całej strony, aby footer był na samym dole, nadanie koloru tła i wycentrowanie tekstu
 
+Markup:
 <div class="footer {{footer}}"> copyright</div>
 
 Styleguide 1.6
@@ -339,6 +347,7 @@ button
 
 Nadanie odpowiedniej pozycji w gridzie, szerokości, paddingów, koloru i rozmiarów tła, czcionki, obramówki, nadanie animacji przy najechaniu
 
+Markup:
 <button class="button {{button}}">Button Element</button>
 
 :after - zmiana koloru zaczynajaca się od lewej strony przy najechaniu
@@ -398,6 +407,7 @@ snake-menu
 
 Ustawienie szerokosci, wysokosci, marginesów, koloru tła i czcionki, wycentrowanie i nadanie odpowiedniej wielkosci tekstu dla menu gry
 
+Markup:
 <div class="snake-menu {{snake-menu}}">Start</div>
 
 Styleguide 3.3
@@ -418,7 +428,8 @@ game-over
 
 Dobranie paddingu, czcionki i koloru dla niej, koloru tła i wycentrowanie tekstu dla okna końca gry
 
-<div class="game-over {{game-over}}">Game Over</div>
+Markup:
+<div class="game-over">Game Over</div>
 
 Styleguide 3.4
 */
@@ -460,6 +471,7 @@ game-over-button
 Ustawienie tego samego stylu jak dla buttonów menu, ze zmiana sposobu wykonywania animacji
 :hover - aktywuje animacje
 
+Markup:
 <button class="game-over-button {{game-over-button}}">Button Element</button>
 
 Styleguide 3.7

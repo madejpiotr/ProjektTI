@@ -55,6 +55,9 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Konstruktor klasy
+Pobiera nam z dokumentu html canvasa, menu i border, ustawia scenę na null, kąt na 75, aby potem wyliczyć tangens z niego, który jest użyty
+do ustawienia kamery. Ustawia renderer, touchstart, scoreLabel, button na null, a fontsize na 78 (przyda się do generowania ekranu końcowego)
+Posiada też przekazywanie metod klasy do listenera.
 </div>
 
 
@@ -98,7 +101,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line724">line 724</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line758">line 758</a>
     </li></ul></dd>
     
 
@@ -163,6 +166,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja dodająca źrodła swiatła
+Tworzymy 3 różne źrodła swiatła z tym samym kolorem, następnie ustawiamy ich pozycję i dodajemy do sceny.
 </div>
 
 
@@ -206,7 +210,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line913">line 913</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line955">line 955</a>
     </li></ul></dd>
     
 
@@ -343,7 +347,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line759">line 759</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line795">line 795</a>
     </li></ul></dd>
     
 
@@ -388,6 +392,8 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja tworząca planszę
+Najpierw tworzy scenę, dodaje do niej światła, do canvasa dodaje się renderer, który jest potrzebny do rysowania w tym canvasie.
+Tworzy planszę, z podaną wielkością i tworzy dla niego renderera i wywołuje funkcję onResize
 </div>
 
 
@@ -431,7 +437,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line794">line 794</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line831">line 831</a>
     </li></ul></dd>
     
 
@@ -568,7 +574,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line935">line 935</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line977">line 977</a>
     </li></ul></dd>
     
 
@@ -623,6 +629,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja wyłączająca ekran końcowy
+Usuwa z diva scorelabel buttona, ustawia go potem na null, nastepnie z canvasa usuwa scorelabel i jego tez ustawia na null
 </div>
 
 
@@ -666,7 +673,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line856">line 856</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line894">line 894</a>
     </li></ul></dd>
     
 
@@ -711,6 +718,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja ustawiająca odpowiedni kierunek węża, zależnie od przyciniętego przycisku
+Sprawdza czy wąż żyje, jeśli tak pobiera nacisnięty przycisk i w zależności od niego ustawia kierunek węża.
 </div>
 
 
@@ -803,7 +811,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1001">line 1001</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1048">line 1048</a>
     </li></ul></dd>
     
 
@@ -854,6 +862,8 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja, która ustawia wygląd planszy i kamery wraz ze zmienianiem się ekranu
+Najpierw wylicza rozmiary używając SizeBalancera, używając setSize renderera ustawia te rozmiary,
+a następnie aktualizuje kamerę. Potem ustawia odpowiednią wielkość czcionki i wyliczone marginesy.
 </div>
 
 
@@ -897,7 +907,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line891">line 891</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line932">line 932</a>
     </li></ul></dd>
     
 
@@ -985,7 +995,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line770">line 770</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line805">line 805</a>
     </li></ul></dd>
     
 
@@ -1030,6 +1040,9 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 <div class="description">
     Funkcja obliczająca kąt między początkiem a końcem dotyku, tym przypisując kierunek, w który ma się poruszać wąż
+Sprawdza czy jest punkt startowy, jesli nie ma to funkcja nic nie robi. Tworzy punkt końcowy i różnicę. Następnie wylicza
+różnicę tych punktów. Oblicza nam potem długość przesunięcia ekranu i limit, od którego ten ruch zostanie zaliczony jako intencjonalne przesunięcie
+Jeżeli ruch był wystarczająco długi to funkcja wylicza nam kąt prostej ruchu w wykresie współrzędnych. Zależnie od kąta zmienia się kierunek ruchu węża.
 </div>
 
 
@@ -1122,7 +1135,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line959">line 959</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1005">line 1005</a>
     </li></ul></dd>
     
 
@@ -1265,7 +1278,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line946">line 946</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line988">line 988</a>
     </li></ul></dd>
     
 
@@ -1309,7 +1322,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 
 <div class="description">
-    Funkcja dająca nam punkt w którym skończył się dotyk ekranu
+    Funkcja ustawiająca koniec dotyku ekranu.
 </div>
 
 
@@ -1402,7 +1415,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line990">line 990</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line1036">line 1036</a>
     </li></ul></dd>
     
 
@@ -1446,7 +1459,8 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 
 <div class="description">
-    Funkcja, która startuje rysowanie planszy
+    Funkcja, która aktualizuje rysowanie planszy
+Używa do tego funkcji boardRenderera update i funkcji render z renderera
 </div>
 
 
@@ -1490,7 +1504,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line881">line 881</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line920">line 920</a>
     </li></ul></dd>
     
 
@@ -1578,7 +1592,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line810">line 810</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line847">line 847</a>
     </li></ul></dd>
     
 
@@ -1666,7 +1680,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line833">line 833</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line870">line 870</a>
     </li></ul></dd>
     
 
@@ -1754,7 +1768,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line782">line 782</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line817">line 817</a>
     </li></ul></dd>
     
 
@@ -1798,7 +1812,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 
 <div class="description">
-    Funkcja zatrzymująca grę, niszczy planszę i pokazuje ekran końcowy
+    Funkcja zatrzymująca grę, niszczy planszę, usuwa timer i pokazuje ekran końcowy
 </div>
 
 
@@ -1842,7 +1856,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line820">line 820</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line857">line 857</a>
     </li></ul></dd>
     
 
@@ -1886,7 +1900,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 
 
 <div class="description">
-    Funkcja aktualizująca stan gry, czy wąż dalej żyje czy nie
+    Funkcja aktualizująca stan gry, sprawdza czy wąż dalej żyje czy nie, jeśli żyje wywołuje funkcję od aktualizowania planszy i renderera.
 </div>
 
 
@@ -1930,7 +1944,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="script.js.html">script.js</a>, <a href="script.js.html#line868">line 868</a>
+        <a href="script.js.html">script.js</a>, <a href="script.js.html#line906">line 906</a>
     </li></ul></dd>
     
 
@@ -1982,7 +1996,7 @@ Klasa agregująca całą funkcjonalność, manipuluje rozgrywką</div>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jan 28 2024 23:55:40 GMT+0100 (czas środkowoeuropejski standardowy)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Feb 03 2024 21:33:29 GMT+0100 (czas środkowoeuropejski standardowy)
 </footer>
 
 <script> prettyPrint(); </script>

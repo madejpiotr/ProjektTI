@@ -29,7 +29,7 @@
             <pre class="prettyprint source linenums"><code>import * as THREE from 'three';
 /**
  * Klasa Size
- * Przyjmuje wysokość i szerokość
+ * Opisuje wysokość i szerokość elementów
  * 
  * @class
  */
@@ -49,7 +49,7 @@ class Size {
 
 /**
  * Klasa Point
- * Przyjmuje współrzędne x i y 
+ * Opisuje współrzędne x i y w naszej przestrzeni gry
  * 
  * @class
  */
@@ -67,7 +67,7 @@ class Point {
         this.y = y;
     }
     /**
-     * Funkcja do dodawania punktu
+     * Funkcja do dodawania punktu, tworzy nowy punkt o podanych współrzędnych
      * @param {number} a 
      * @param {number} b 
      * @returns 
@@ -88,12 +88,11 @@ class Point {
 }
 /**
  * Klasa Direction
- * Odpowiada za kierunek, w który idzie wąż
+ * Odpowiada za kierunek, w który idzie wąż, jest to alternatywa dla enuma, js go nie udostepnia, ale dzieki temu mogłem zawrzeć dodatkowe informacje
  * 
  * @class
  */
 class Direction {
-    //alternatywa dla enuma, js go nie udostepnia, ale dzieki temu moglismy zawrzec dodatkowe informacje
     static Up = new Direction('Up', new Point(0, 1));
     static Down = new Direction('Down', new Point(0, -1));
     static Left = new Direction('Left', new Point(-1, 0));
@@ -110,7 +109,7 @@ class Direction {
         this.offset = offset;
     }
     /**
-     * Funkcja sprawdzajaca czy dwa kierunki sa przeciwne sobie
+     * Funkcja sprawdzajaca czy dwa kierunki sa przeciwne sobie, jezeli offsety punktów porównywanych się wyzerują to oznacza, że kierunki są sobie przeciwne.
      * @param {string} direction 
      * @returns boolean
      * 
@@ -136,7 +135,7 @@ class Direction {
 
 /**
  * Klasa Snake
- * Odpowiada za węża w grze
+ * Odpowiada za węża w grze, przetrzymuje jego pozycje głowy i części ciała, kierunek w którym zmierza i czy jest aktualnie żywy
  * 
  * @class
  */
@@ -158,7 +157,8 @@ class Snake {
 
 
     /**
-     * Funkcja, która sprawdza czy wąż wszedł w siebie
+     * Funkcja, która sprawdza czy wąż wszedł w siebie, sprawdza czy dla podanego punktu (w naszym przypadku albo punkt do zdobycia albo głowa)
+     * jest równa jakiejkolwiek częsci ciała węża.
      * 
      * @param {Point} point 
      * @returns boolean
@@ -176,7 +176,7 @@ class Snake {
 
     /**
      * Funkcja od jedzenia
-     * Zwiększa długość węża, jeśli zje
+     * Zwiększa długość węża, jeśli zje. Wypycha aktualną głowę do tyłu, a nowy punkt staje się głową
      * @param {Point} point 
      * 
      * @function
@@ -188,6 +188,7 @@ class Snake {
     
     /**
      * Funkcja ustawiająca kierunek węża
+     * Jezeli wąż nie zmienił jeszcze kierunku, ani nie chce sie poruszyć w przeciwną stronę to zmienia kierunek na podany i ustawia, że już zmienił kierunek
      * @param {string} direction 
      * 
      * @function
@@ -216,6 +217,9 @@ class Snake {
     }
     /**
      * Funkcja poruszania się węża
+     * Usuwa punkt z końca, potem dodaje nowy w miejscu głowy, a głowa zmienia pozycję w stronę, w którą się porusza, zmienia wartość czy wąż zmienił
+     * kierunek na false, i nadaje wartość isAlive na przeciwność tego czy koliduje z ciałem(jezeli nie koliduje, jest dalej true i gra się kontynuuje, 
+     * w przeciwnym przypadku wąż umiera i gra się kończy)
      * 
      * @function
      */
@@ -255,31 +259,35 @@ class PointRandomizer {
 /**
  * Klasa od losowania kierunku węża
  * 
+ * 
  * @class
  */
 class DirectionRandomizer {
     static directions = [Direction.Up, Direction.Down, Direction.Left, Direction.Right];
     /**
      * Funkcja losująca kierunek
+     * Losuje nam indeks do tablicy, w której mamy zapisane kierunki, potem oddaje wartość dla tego indeksu
+     * 
      * @returns Direction
      * 
      * @function
      */
     static random() {
-        const directionIndex = Math.floor(3.9 * Math.random());
+        const directionIndex = Math.floor(4 * Math.random());
         return DirectionRandomizer.directions[directionIndex];
     }
 }
 
 /**
  * Klasa Board
- * Odpowiada za planszę, jej wymiary, punkt do zdobycia i tworzenie węża
+ * Odpowiada za planszę, jej wymiary, punkt do zdobycia i tworzenie węża.
  * 
  * @class
  */
 class Board {
     /**
      * Konstruktor klasy
+     * Znajduje nam losowy punkt do zdobycia, losowy punkt od którego zaczynać się bedzię tworzyć wąz ( jego głowa )
      * @param {number} size 
      * 
      * @constructor
@@ -287,8 +295,6 @@ class Board {
     constructor(size) {
         this.point = Point.Undefinied;
         this.size = size;
-        this.size.x += 1;
-        this.size.y += 1;
         let snakeSize = 3;
         let randomPoint = this.randomPointInBoardForSnake(snakeSize);
         this.snake = new Snake(randomPoint, DirectionRandomizer.random());
@@ -299,6 +305,8 @@ class Board {
     /**
      * Funkcja aktualizująca wydarzenia na planszy
      * Wąż się porusza, jeżeli jest na planszy lub nie wszedł w siebie, i wywołuje eat() jezeli wąż zjadł punkt
+     * Tworzy zmienna, która ma przyszłą pozycję węża, robi to dodając offset kierunku, w jakim idzie, następnie sprawdza czy
+     * ta przyszła pozycja węża to punkt do zdobycia, jeśli tak, wąż je, punkt się resetuje i tworzy się nowy.
      * @returns 
      * 
      * @function
@@ -321,6 +329,10 @@ class Board {
     
     /**
      * Funkcja tworząca węża
+     * Tworzy punkt opposite, która jest przeciwnościa offsetu kierunku węża, aby części ciała tworzyły się za wężem, a nie np. obok niego lub przed nim
+     * Robi się pętla, która dodaje do pozycji części ciała wspołrzędne opposite, następnie sprawdza czy ten punkt jest na planszy, potem dodaje ten punkt 
+     * na samym końcu tablicy części ciała.
+     * 
      * @param {number} lenght 
      * 
      * @function
@@ -343,9 +355,10 @@ class Board {
             this.snake.body.unshift(new Point(part.x, part.y));
             i++
         }
-    }SnakeRendererElement
+    }
     /**
      * Funkcja generująca punkt do zjedzenia
+     * Losuje punkt póki nie koliduje z wężem.
      * 
      * @function
      */
@@ -360,6 +373,9 @@ class Board {
     }
     /**
      * Funkcja sprawdzająca czy element jest na planszy
+     * Robi 4 zmienne, które sprwadzają, czy punkt jest w pozycji nieujemnej i czy są mniejsze od size'a, jeśli te warunki są spełnione
+     * punkt jest na planszy, w przeciwnym przypadku jest on poza.
+     * 
      * @param {Point} point 
      * @returns boolean
      * 
@@ -384,6 +400,10 @@ class Board {
     }
     /**
      * Funkcja pomocnicza do generowania węża
+     * Aby wąż zawsze się robił cały i nie urywał się, bo np. wygenerował by się poza planszą co by go ukróciło, to zmniejszamy obszar,
+     * w którym może się wąż wygenerować o jego długość, czyli tak jakbyśmy odjeli obrzeża planszy od możliwośći do wygenerowania głowy.
+     * Dzięki temu wąż zawsze będzie w pełni wygenerowany.
+     * 
      * @param {number} snakeSize 
      * @returns Point
      * 
@@ -435,6 +455,11 @@ class SizeBalancer {
 
     /**
      * Funkcja wybierająca odpowiednią wielkość dla canvasa
+     * Tworzymy stałą, która jest maksymalnym wymiarem canvasa jaki może się wygenerować, zależnie od wielkości ekranu
+     * Potem porównujemy tę wartość z wyliczoną wielkością, jeśli jego szerokość jest mniejsza od jego wysokości i od maxa,
+     * to naszymi wymiarami dla kwadratu będzie szerokość, w przypadku jak wysokość będzie mniejsza, wtedy używamy wysokość, 
+     * jeżeli jednak ani jedno ani drugie nie jest mniejsze od maxa, naszymi wymiarami będzie max.
+     * 
      * @param {number} size 
      * @param {number} maxSize 
      * @returns Size
@@ -443,7 +468,6 @@ class SizeBalancer {
      */
     static balanceSize(size, maxSize) {
         const max = Math.min(maxSize.width, maxSize.height);
-        console.log(max);
 
         if (size.width &lt; size.height &amp;&amp; size.width &lt; max) {
             return new Size(size.width, size.width);
@@ -455,6 +479,9 @@ class SizeBalancer {
     }
     /**
      * Funkcja wyliczająca odpowiednią wielkość
+     * Wylicza nam maxSize, mnożac wymiary canvasa przez stałą balance, aby była przestrzeń na marginesy itp. Następnie wybiera,
+     * czy użyć ten maxSize czy wcześniejszy canvasSize.
+     * 
      * @param {div} canvas 
      * @returns Size
      * 
@@ -471,7 +498,8 @@ class SizeBalancer {
 
 /**
  * Klasa SnakeRendererElement
- * Jest to element do rysowania węża
+ * Jest to element potrzebny do rysowania węża, ma cube odpowiedzialny za sześcian części węża i snakePart, czyli 
+ * którą częscia węża jest
  * 
  * @class
  */
@@ -513,6 +541,7 @@ class SnakeRenderer {
     }
     /**
      * Funkcja od dodawania elementów węża
+     * Dodaje najpierw głowę, ustalonymi kolorami, a następnie pętlą foreach dodaje resztę częsci węża.
      * 
      * @function
      */
@@ -524,6 +553,8 @@ class SnakeRenderer {
     }
     /**
      * Funckja pomocnicza do add()
+     * Tworzy nowy sześcian, na podstawie podanych kolorów, tworzy nową część węża, któremu przypisuje ten sześcian i dodaje go do tablicy części ciała węża
+     * Następnie dodaje ten sześcian, przypisany do częsci ciała węża do sceny i daje mu pozycje i go skaluje odpowiednio.
      * @param {Point} part 
      * @param {Scene} scene 
      * @param {color} color 
@@ -544,23 +575,23 @@ class SnakeRenderer {
 
     /**
      * Funkcja aktualizująca stan węża
+     * Jeżeli wąż nie żyje to nic nie robi, w innym przypadku dodaje punkt do wyrysowania jeżeli jest taka potrzeba, np, jak zbierze punkt do zdobycia i
+     * porusza częściami węża.
      * @returns 
      * 
      * @function
      */
     update() {
-        if (!this.snake.isAlive &amp;&amp; !this.isRunning)
+        if (!this.snake.isAlive)
             return;
-        if (!this.snake.isAlive &amp;&amp; this.isRunning) {
-            startAnimation();
-            return;
-        }
         this.addPartIfNeeded();
         this.moveSnakeMesh();
     }
     
     /**
      * Funkcja dodająca element węża, jeśli wąż się wydłuża
+     * Sprawdza czy ilość części do wyrysowania jest większa bądź równa długości całego węża (razem z głową), jeśli tak ta funkcja nic nie robi.
+     * Następnie sprawdzamy czy sześcian jest w pozycji głowy, jeśli jest, nic się nie wykonuje, w przeciwnym przypadku dodajemy sześcian do wyrysowania w miejscu głowy
      * @returns 
      * 
      * @function
@@ -575,53 +606,36 @@ class SnakeRenderer {
     }
 
     /**
-     * Funkcja startująca rysowania
-     * 
-     * @function
-     */
-    startAnimation() {
-        isRunning = true;
-    }
-    /**
-     * Funkcja stopująca rysowania
-     * 
-     * @function
-     */
-    stopAnimation() {
-        isRunning = false;
-    }
-
-    /**
      * Funkcja ruszająca wężem
+     * Wywołuje funkcję do ruszania głowy węża, następnie w pętli for rusza resztą jego części.
      * 
      * @function
      */
     moveSnakeMesh() {
-        const delta = 2 * this.clock.getDelta();
-        this.moveSnakeHeadMesh(delta);
+        this.moveSnakeHeadMesh();
         for (let i = 1; i &lt; this.parts.length; i++) {
-            this.moveSnakeBodyPartMesh(this.parts[i], this.snake.body[i - 1], delta);
+            this.moveSnakeBodyPartMesh(this.parts[i], this.snake.body[i - 1]);
         }
     }
     /**
      * Funkcja ruszająca głową węża
-     * @param {number} delta 
+     * Ustawia pozycje pierwszego sześcianu w miejscu, w którym znajduje się głowa węża
      * 
      * @function
      */
-    moveSnakeHeadMesh(delta) {
+    moveSnakeHeadMesh() {
         this.parts[0].cube.position.x = this.snake.head.x;
         this.parts[0].cube.position.y = this.snake.head.y;
     }
     /**
      * Funkcja ruszająca częścią ciała węża
+     * Ustawia pozycje sześcianu w miejscu, w którym znajduje się dana część węża
      * @param {Point} part 
      * @param {Point} destination 
-     * @param {number} delta 
      * 
      * @function
      */
-    moveSnakeBodyPartMesh(part, destination, delta) {
+    moveSnakeBodyPartMesh(part, destination) {
     
         part.cube.position.x = destination.x;
         part.cube.position.y = destination.y;
@@ -629,6 +643,10 @@ class SnakeRenderer {
 
     /**
      * Funkcja rysująca sześcian
+     * Tworzy grupę elementów, następnie sześcian, potem zmienną, która przechowywuje specyfikacje do wyglądu sześcianu,
+     * a potem łączymy to w jedno, aby wyrysował się poprwany sześcian z odpowiednimi kolorami i światłem
+     * Dodaje ten sześcian do grupy i go zwraca
+     * 
      * @param {color} vcolor 
      * @param {color} vemissive 
      * @returns Cube
@@ -647,7 +665,7 @@ class SnakeRenderer {
 
 /**
  * Klasa BoardRenderer
- * Odpowiada za rysowanie planszy
+ * Odpowiada za rysowanie planszy, przyjmuje plansze, która ma wyrysować i scene, na której go rysuje
  * 
  * @class
  */
@@ -669,6 +687,10 @@ class BoardRenderer {
 
     /**
      * Funkcja tworząca planszę
+     * Tworzy stałą, która jest plaszczyzną o wielkości, takiej jaka ma plansza, potem zmienną, jak ma się ta płaszczyzna wyrysować.
+     * Potem tworzy zmienną, która te informacje łączy w jedną spójną płaszczyznę z odpowiednimi kolorami i światłem.
+     * Ustawia pozycję tej płaszczyzny i dodaje tę płaszczyznę do sceny.
+     * Następnie wypełnia tą płaszczyznę kwadratami, które służą jako pola, na które można się poruszyć. Robi to podwójna pętlą for.
      * 
      * @function
      */
@@ -687,6 +709,9 @@ class BoardRenderer {
 
     /**
      * Funckja dodająca pojedyńcze pole na planszy
+     * Tworzy kwadrat i jego kolor i swiatło
+     * Łączy te informacje w spójną jedność
+     * Następnie ustawia pozycję tego kwadratu i skaluje go, a na końcu dodaje ten kwadrat do sceny.
      * @param {number} x 
      * @param {number} y 
      * 
@@ -703,6 +728,8 @@ class BoardRenderer {
 
     /**
      * Funckja aktualizująca stan planszy
+     * Funkcja wywyłuje funkcję do aktualizowania węża i następnie aktualizuje pozycję punktu do zdobycia
+     * 
      * 
      * @function
      */
@@ -712,7 +739,10 @@ class BoardRenderer {
     }
 
     /**
-     * Funkcja dodająca punkt na planszy
+     * Funkcja dodająca punkt do zdobycia na planszy
+     * Najpierw tworzy ten punkt, a następnie dodaje go do sceny.
+     * Potem ustawia jego pozycje na podstawie punktu z planszy
+     * Na samym końcu go skaluje
      * @param {Point} point 
      * @param {Scene} scene 
      * 
@@ -728,7 +758,11 @@ class BoardRenderer {
     }
 
     /**
-     * Funkcja rysująca sześcian
+     * Funkcja rysująca sześcian do punktu do zdobycia
+     * Tworzy grupę elementów, następnie sześcian, potem zmienną, która przechowywuje specyfikacje do wyglądu sześcianu, te specyfikacje są z góry nałożone,
+     * bo tą funkcją zawsze tworzymy tylko punkt do zdobycia i każdy wygląda tak samo,
+     * a potem łączymy to w jedno, aby wyrysował się poprwany sześcian z odpowiednimi kolorami i światłem
+     * Dodaje ten sześcian do grupy i go zwraca
      * @returns Cube
      * 
      * @function
@@ -752,7 +786,9 @@ class BoardRenderer {
 class Game {
     /**
      * Konstruktor klasy
-     * 
+     * Pobiera nam z dokumentu html canvasa, menu i border, ustawia scenę na null, kąt na 75, aby potem wyliczyć tangens z niego, który jest użyty
+     * do ustawienia kamery. Ustawia renderer, touchstart, scoreLabel, button na null, a fontsize na 78 (przyda się do generowania ekranu końcowego)
+     * Posiada też przekazywanie metod klasy do listenera.
      * @constructor
      */
     constructor() { 
@@ -787,7 +823,6 @@ class Game {
     calculateFontSize(x){
         const a = 0.04;
         this.fontsize = Math.floor(a * x);
-        console.log(this.fontsize);
     }
 
     /**
@@ -816,6 +851,8 @@ class Game {
 
     /**
      * Funkcja tworząca planszę
+     * Najpierw tworzy scenę, dodaje do niej światła, do canvasa dodaje się renderer, który jest potrzebny do rysowania w tym canvasie.
+     * Tworzy planszę, z podaną wielkością i tworzy dla niego renderera i wywołuje funkcję onResize
      * 
      * @function
      */
@@ -824,7 +861,7 @@ class Game {
         this.addLight();
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.canvas.appendChild(this.renderer.domElement);
-        const size = 10;
+        const size = 11;
         this.board = new Board(new Point(size, size));
         this.boardRenderer = new BoardRenderer(this.board, this.scene);
         this.onResize();
@@ -841,7 +878,7 @@ class Game {
     }
 
     /**
-     * Funkcja zatrzymująca grę, niszczy planszę i pokazuje ekran końcowy
+     * Funkcja zatrzymująca grę, niszczy planszę, usuwa timer i pokazuje ekran końcowy
      * 
      * @function
      */
@@ -878,6 +915,7 @@ class Game {
 
     /**
      * Funkcja wyłączająca ekran końcowy
+     * Usuwa z diva scorelabel buttona, ustawia go potem na null, nastepnie z canvasa usuwa scorelabel i jego tez ustawia na null
      * 
      * @function
      */
@@ -889,7 +927,7 @@ class Game {
     }
 
     /**
-     * Funkcja aktualizująca stan gry, czy wąż dalej żyje czy nie
+     * Funkcja aktualizująca stan gry, sprawdza czy wąż dalej żyje czy nie, jeśli żyje wywołuje funkcję od aktualizowania planszy i renderera.
      * 
      * @function
      */
@@ -902,7 +940,8 @@ class Game {
     }
 
     /**
-     * Funkcja, która startuje rysowanie planszy
+     * Funkcja, która aktualizuje rysowanie planszy
+     * Używa do tego funkcji boardRenderera update i funkcji render z renderera
      * 
      * @function
      */
@@ -913,6 +952,8 @@ class Game {
 
     /**
      * Funkcja, która ustawia wygląd planszy i kamery wraz ze zmienianiem się ekranu
+     * Najpierw wylicza rozmiary używając SizeBalancera, używając setSize renderera ustawia te rozmiary,
+     * a następnie aktualizuje kamerę. Potem ustawia odpowiednią wielkość czcionki i wyliczone marginesy.
      * 
      * @function
      */
@@ -935,6 +976,7 @@ class Game {
 
     /**
      * Funkcja dodająca źrodła swiatła
+     * Tworzymy 3 różne źrodła swiatła z tym samym kolorem, następnie ustawiamy ich pozycję i dodajemy do sceny.
      * 
      * @function
      */
@@ -979,6 +1021,10 @@ class Game {
 
     /**
      * Funkcja obliczająca kąt między początkiem a końcem dotyku, tym przypisując kierunek, w który ma się poruszać wąż
+     * Sprawdza czy jest punkt startowy, jesli nie ma to funkcja nic nie robi. Tworzy punkt końcowy i różnicę. Następnie wylicza
+     * różnicę tych punktów. Oblicza nam potem długość przesunięcia ekranu i limit, od którego ten ruch zostanie zaliczony jako intencjonalne przesunięcie
+     * Jeżeli ruch był wystarczająco długi to funkcja wylicza nam kąt prostej ruchu w wykresie współrzędnych. Zależnie od kąta zmienia się kierunek ruchu węża.
+     * 
      * @param {Object} event 
      * @returns 
      * 
@@ -1010,7 +1056,7 @@ class Game {
     }
 
     /**
-     * Funkcja dająca nam punkt w którym skończył się dotyk ekranu
+     * Funkcja ustawiająca koniec dotyku ekranu.
      * @param {Object} event 
      * 
      * @function
@@ -1021,6 +1067,7 @@ class Game {
 
     /**
      * Funkcja ustawiająca odpowiedni kierunek węża, zależnie od przyciniętego przycisku
+     * Sprawdza czy wąż żyje, jeśli tak pobiera nacisnięty przycisk i w zależności od niego ustawia kierunek węża.
      * @param {Object} event 
      * @returns 
      * 
@@ -1073,7 +1120,7 @@ onGameStart()
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Jan 28 2024 23:55:40 GMT+0100 (czas środkowoeuropejski standardowy)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Feb 03 2024 21:33:29 GMT+0100 (czas środkowoeuropejski standardowy)
 </footer>
 
 <script> prettyPrint(); </script>
